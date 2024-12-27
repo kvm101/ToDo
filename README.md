@@ -15,9 +15,9 @@ Technologies to used:
   -Deleted excess
 
   version 0.2.0 (scheduled for 28.12.24):
-  -Worked same functions of DB
-  -Added struct Task
-  -JSON transfer
+  - Worked same functions of DB
+  - Added struct Task
+  - JSON transfer
 
 ## License
 This project have [MIT License](LICENSE).
