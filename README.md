@@ -1,12 +1,12 @@
-#ToDo Console App
+# ToDo Console App
 **version 0.1.0**
 
-##Desciption
+## Desciption
 Technologies to used:
   **Golang**    
   **Postgres**
 
-##Project version:
+## Project version:
   version 0.1.0 (27.12.24):
   -Marked project structure
   -Connected DB
