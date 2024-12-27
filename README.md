@@ -11,9 +11,6 @@ Technologies to used:
   - Marked project structure
   - Connected DB
 
-  version 0.1.1 (27.12.24):
-  - Deleted excess
-
   version 0.2.0 (scheduled for 28.12.24):
   - Worked same functions of DB
   - Added struct Task
