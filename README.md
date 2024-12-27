@@ -3,8 +3,8 @@
 
 ## Desciption
 Technologies to used:
-  **Golang**    
-  **Postgres**
+  - **Golang**    
+  - **Postgres**
 
 ## Project version:
   version 0.1.0 (27.12.24):
