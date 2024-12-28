@@ -15,7 +15,7 @@ Technologies to used:
   - Filling db functions (Add, Delete, Edit, Read)
   - Decomposition api from main.go
 
-  version 0.2.0 (scheduled for 28.12.24):
+  version 0.2.0 (postponed to 29.12.24):
   - JSON transfer
 
 ## License
