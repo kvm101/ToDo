@@ -1,5 +1,5 @@
 # ToDo Console App
-**version 0.1.0**
+**version 0.1.1**
 
 ## Desciption
 Technologies to used:
@@ -11,9 +11,14 @@ Technologies to used:
   - Marked project structure
   - Connected DB
 
-  version 0.2.0 (scheduled for 28.12.24):
-  - Worked same functions of DB
-  - Added struct Task
+  version 0.1.1 (27.12.24):
+  - Filling db functions (Add, Delete, Edit, Read)
+  - Decomposition api from main.go
+
+  version 0.1.2 (29.12.24):
+  - Upgrade db functions (Add, Delete, Edit, Read)
+
+  version 0.2.0 (postponed to 30.12.24):
   - JSON transfer
 
 ## License
