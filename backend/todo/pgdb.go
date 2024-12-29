@@ -16,67 +16,97 @@ const (
 	dbname   = "postgres"
 )
 
-func StartDB() *sql.DB {
+type Task struct {
+	task_id     int8   `json:"id"`
+	head        string `json:"head"`
+	description string `json:"description"`
+}
+
+func getDB() *sql.DB {
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)
 
 	db, err := sql.Open("postgres", psqlInfo)
+
 	if err != nil {
 		panic(err)
 	}
 
+	if err = db.Ping(); err != nil {
+		panic(err)
+	}
+
+	fmt.Println("Database => successfully connected!")
 	return db
 }
 
 func Add(head, description string) {
-	db := StartDB()
+	db := getDB()
 	defer db.Close()
-	insertTask := `insert into "List"("head", "description") values($1, $2)`
 
-	result, err := db.Exec(insertTask, head, description)
+	listQuery := `CREATE TABLE IF NOT EXISTS list(
+		task_id SERIAL PRIMARY KEY,
+		head VARCHAR(50) NOT NULL,
+		description VARCHAR(255)
+	)`
+
+	insertTask := `insert into "list"("head", "description") values($1, $2)`
+
+	_, err := db.Exec(listQuery)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
-	log.Println(result)
+	_, err = db.Exec(insertTask, head, description)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 }
 
 func Delete(task_id int8) {
-	db := StartDB()
+	db := getDB()
 	defer db.Close()
-	deleteTask := `delete from "List" where task_id=$1`
+	deleteTask := `delete from "list" where task_id=$1`
 
-	result, err := db.Exec(deleteTask, task_id)
+	_, err := db.Exec(deleteTask, task_id)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-
-	log.Println(result)
 }
 
 func Edit(task_id int8, head, description string) {
-	db := StartDB()
+	db := getDB()
 	defer db.Close()
-	updateTask := `update "List" set "head=$1", "description"=$2 where "task_id"=$3`
+	updateTask := `update "list" set "head"=$1, "description"=$2 where "task_id"=$3`
 
-	result, err := db.Exec(updateTask, task_id, head, description)
+	_, err := db.Exec(updateTask, head, description, task_id)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-
-	log.Println(result)
 }
 
-func Read() {
-	db := StartDB()
-	defer db.Close()
-	readTask := `select * from "List"`
-
-	result, err := db.Exec(readTask)
+func Read() []Task {
+	var tasks []Task = make([]Task, 0)
+	db := getDB()
+	rows, err := db.Query(`select * from "list"`)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+	defer rows.Close()
 
-	log.Println(result)
+	for rows.Next() {
+		var table_id int8
+		var head string
+		var description string
+		rows.Scan(&table_id, &head, &description)
+
+		tasks = append(tasks, Task{table_id, head, description})
+	}
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return tasks
 }

@@ -14,5 +14,5 @@ func main() {
 	http.HandleFunc("/delete", todo.HandlerDelete)
 
 	fmt.Println("Server is running on socket: 128.0.0.1:7654")
-	log.Fatal(http.ListenAndServe(":7654", nil))
+	log.Fatal(http.ListenAndServe(":7655", nil))
 }
