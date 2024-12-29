@@ -13,6 +13,6 @@ func main() {
 	http.HandleFunc("/update", todo.HandlerUpdate)
 	http.HandleFunc("/delete", todo.HandlerDelete)
 
-	fmt.Println("Server is running on socket: 128.0.0.1:7654")
+	fmt.Println("Server is running on: http://localhost:7655")
 	log.Fatal(http.ListenAndServe(":7655", nil))
 }

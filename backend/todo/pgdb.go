@@ -16,10 +16,10 @@ const (
 	dbname   = "postgres"
 )
 
-type Task struct {
-	task_id     int8   `json:"id"`
-	head        string `json:"head"`
-	description string `json:"description"`
+type task struct {
+	Task_id     int8   `json:"task_id"`
+	Head        string `json:"head"`
+	Description string `json:"description"`
 }
 
 func getDB() *sql.DB {
@@ -86,9 +86,11 @@ func Edit(task_id int8, head, description string) {
 	}
 }
 
-func Read() []Task {
-	var tasks []Task = make([]Task, 0)
+func Read() []task {
+	var tasks []task = make([]task, 0)
 	db := getDB()
+	defer db.Close()
+
 	rows, err := db.Query(`select * from "list"`)
 	if err != nil {
 		log.Fatal(err.Error())
@@ -101,7 +103,7 @@ func Read() []Task {
 		var description string
 		rows.Scan(&table_id, &head, &description)
 
-		tasks = append(tasks, Task{table_id, head, description})
+		tasks = append(tasks, task{table_id, head, description})
 	}
 
 	if err != nil {
