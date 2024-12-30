@@ -8,18 +8,29 @@ import (
 	"net/http"
 )
 
+var temp_data task
+
+func readRequest(r *http.Request) *task {
+	body, err := io.ReadAll(r.Body)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	var data task
+	err = json.Unmarshal(body, &data)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return &data
+}
+
 func HandlerAdd(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodPost:
-		body, err := io.ReadAll(r.Body)
-		var data task
-		json.Unmarshal(body, &data)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		Add(data.Head, data.Description)
+		temp_data = *readRequest(r)
+		addTask(temp_data.Head, temp_data.Description)
 
 	default:
 		fmt.Fprint(w, "Not correct request!")
@@ -29,7 +40,7 @@ func HandlerAdd(w http.ResponseWriter, r *http.Request) {
 func HandlerRead(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		tasks := Read()
+		tasks := readTask()
 		data, err := json.Marshal(tasks)
 		if err != nil {
 			log.Println(err)
@@ -45,15 +56,8 @@ func HandlerRead(w http.ResponseWriter, r *http.Request) {
 func HandlerUpdate(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodPut:
-		body, err := io.ReadAll(r.Body)
-		var data task
-		json.Unmarshal(body, &data)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		Edit(data.Task_id, data.Head, data.Description)
+		temp_data = *readRequest(r)
+		editTask(temp_data.Task_id, temp_data.Head, temp_data.Description)
 
 	default:
 		fmt.Fprint(w, "Not correct request!")
@@ -63,15 +67,8 @@ func HandlerUpdate(w http.ResponseWriter, r *http.Request) {
 func HandlerDelete(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodDelete:
-		body, err := io.ReadAll(r.Body)
-		var data task
-		json.Unmarshal(body, &data)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		Delete(data.Task_id)
+		temp_data = *readRequest(r)
+		deleteTask(temp_data.Task_id)
 
 	default:
 		fmt.Fprint(w, "Not correct request!")

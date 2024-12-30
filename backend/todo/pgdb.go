@@ -33,15 +33,10 @@ func getDB() *sql.DB {
 		panic(err)
 	}
 
-	if err = db.Ping(); err != nil {
-		panic(err)
-	}
-
-	fmt.Println("Database => successfully connected!")
 	return db
 }
 
-func Add(head, description string) {
+func addTask(head, description string) {
 	db := getDB()
 	defer db.Close()
 
@@ -55,45 +50,46 @@ func Add(head, description string) {
 
 	_, err := db.Exec(listQuery)
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Println(err)
 	}
 
 	_, err = db.Exec(insertTask, head, description)
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Println(err)
 	}
 }
 
-func Delete(task_id int8) {
+func deleteTask(task_id int8) {
 	db := getDB()
 	defer db.Close()
+
 	deleteTask := `delete from "list" where task_id=$1`
 
 	_, err := db.Exec(deleteTask, task_id)
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Println(err)
 	}
 }
 
-func Edit(task_id int8, head, description string) {
+func editTask(task_id int8, head, description string) {
 	db := getDB()
 	defer db.Close()
 	updateTask := `update "list" set "head"=$1, "description"=$2 where "task_id"=$3`
 
 	_, err := db.Exec(updateTask, head, description, task_id)
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Println(err)
 	}
 }
 
-func Read() []task {
+func readTask() []task {
 	var tasks []task = make([]task, 0)
 	db := getDB()
 	defer db.Close()
 
 	rows, err := db.Query(`select * from "list"`)
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Println(err)
 	}
 	defer rows.Close()
 
@@ -107,9 +103,8 @@ func Read() []task {
 	}
 
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 
-	fmt.Println(tasks)
 	return tasks
 }
