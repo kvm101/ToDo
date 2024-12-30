@@ -9,15 +9,15 @@
   - **React**
 
 ## 2.Project version:
-  version 1.1.0-alfa (27.12.24):
+  version 1.0.0-alfa (27.12.24):
   - Marked project structure
   - Connected DB
 
-  version 1.1.1-alfa (27.12.24):
-  - Filling db functions (Add, Delete, Edit, Read)
+  version 1.1.0-alfa (27.12.24):
+  - Created db functions (Add, Delete, Edit, Read)
   - Decomposition api from main.go
 
-  version 1.1.2-alfa (29.12.24):
+  version 1.1.1-alfa (29.12.24):
   - Upgrade db functions (Add, Delete, Edit, Read)
 
   version 1.2.0-alfa (30.12.24):
