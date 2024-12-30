@@ -29,12 +29,13 @@ func HandlerAdd(w http.ResponseWriter, r *http.Request) {
 func HandlerRead(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		data, err := json.Marshal()
+		tasks := Read()
+		data, err := json.Marshal(tasks)
 		if err != nil {
 			log.Println(err)
 		}
 
-		fmt.Fprint(w, data)
+		fmt.Fprint(w, string(data))
 
 	default:
 		fmt.Fprint(w, "Not correct request!")

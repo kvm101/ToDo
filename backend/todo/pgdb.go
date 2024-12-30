@@ -110,5 +110,6 @@ func Read() []task {
 		log.Fatal(err)
 	}
 
+	fmt.Println(tasks)
 	return tasks
 }
