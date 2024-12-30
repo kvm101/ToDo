@@ -18,8 +18,13 @@ Technologies to used:
   version 0.1.2 (29.12.24):
   - Upgrade db functions (Add, Delete, Edit, Read)
 
-  version 0.2.0 (postponed to 30.12.24):
+  version 0.2.0 (30.12.24):
   - JSON transfer
+
+  version 0.3.0 (postponed to 30.12.24):
+  - JWT Tokens
+  - OAuth 2.0
+
 
 ## License
 This project have [MIT License](LICENSE).
