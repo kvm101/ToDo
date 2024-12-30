@@ -25,6 +25,9 @@
   - Edit project interface instead of ConsoleApp will be WebApp
   - added technology: React (JavaScript)
 
+  version 1.2.1-alfa (30.12.24):
+  - Fixed function read() through json incorrection
+
   version 1.3.0-alfa (postponed to 30.12.24):
   - JWT Tokens
 
