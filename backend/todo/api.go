@@ -40,8 +40,25 @@ func HandlerAdd(w http.ResponseWriter, r *http.Request) {
 func HandlerRead(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		tasks := readTask()
-		data, err := json.Marshal(tasks)
+		body, err := io.ReadAll(r.Body)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		var data []byte
+		var section string
+
+		err = json.Unmarshal(body, &section)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		tasks := readTask(section)
+		if err != nil {
+			log.Println(err)
+		}
+
+		data, err = json.Marshal(tasks)
 		if err != nil {
 			log.Println(err)
 		}
@@ -69,6 +86,17 @@ func HandlerDelete(w http.ResponseWriter, r *http.Request) {
 	case http.MethodDelete:
 		temp_data = *readRequest(r)
 		deleteTask(temp_data.Task_id)
+
+	default:
+		fmt.Fprint(w, "Not correct request!")
+	}
+}
+
+func HandlerDone(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodPut:
+		temp_data = *readRequest(r)
+		doneTask(temp_data.Task_id, temp_data.Done)
 
 	default:
 		fmt.Fprint(w, "Not correct request!")

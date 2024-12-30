@@ -1,5 +1,5 @@
 # ToDo Web App
-**version 1.3.0-alfa**
+**version 1.4.0-alfa**
 
 ## 1.Desciption
 1.1.Technologies to used:
@@ -31,11 +31,13 @@
   version 1.3.0-alfa (30.12.24):
   - Added Logging
 
-  planning in version 1.4.0-alfa (31.12.24):
-  - Add JWT
-  - Add OAuth 2.0
-  - Add Sections(Tasks, Done tasks)
+  version 1.4.0-alfa (30.12.24):
+  - Added Sections(Tasks, Done tasks)
 
+  planning in future versions:
+  **Access Management**
+  - Add JWT (on 31.12.24)
+  - Add OAuth 2.0 (on 31.12.24)
 
 ## License
 This project have [MIT License](LICENSE).

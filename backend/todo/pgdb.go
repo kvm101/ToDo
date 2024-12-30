@@ -20,6 +20,7 @@ type task struct {
 	Task_id     int8   `json:"task_id"`
 	Head        string `json:"head"`
 	Description string `json:"description"`
+	Done        bool   `json:"done"`
 }
 
 func getDB() *sql.DB {
@@ -43,7 +44,8 @@ func addTask(head, description string) {
 	listQuery := `CREATE TABLE IF NOT EXISTS list(
 		task_id SERIAL PRIMARY KEY,
 		head VARCHAR(50) NOT NULL,
-		description VARCHAR(255)
+		description VARCHAR(255),
+		done BOOLEAN DEFAULT FALSE
 	)`
 
 	insertTask := `insert into "list"("head", "description") values($1, $2)`
@@ -82,12 +84,39 @@ func editTask(task_id int8, head, description string) {
 	}
 }
 
-func readTask() []task {
+func doneTask(task_id int8, done bool) {
+	db := getDB()
+	defer db.Close()
+
+	doneTask := `update "list" set "done"=$1 where "task_id"=$2`
+
+	_, err := db.Exec(doneTask, done, task_id)
+	if err != nil {
+		log.Println(err)
+	}
+}
+
+func readTask(section string) []task {
 	var tasks []task = make([]task, 0)
 	db := getDB()
 	defer db.Close()
 
-	rows, err := db.Query(`select * from "list"`)
+	var section_tasks string
+
+	switch section {
+	case "all":
+		section_tasks = `select * from "list"`
+	case "done":
+		section_tasks = `select * from "list" where "done"=TRUE`
+
+	case "undone":
+		section_tasks = `select * from "list" where "done"=FALSE`
+
+	default:
+		section_tasks = `select * from "list"`
+	}
+
+	rows, err := db.Query(section_tasks)
 	if err != nil {
 		log.Println(err)
 	}
@@ -97,9 +126,10 @@ func readTask() []task {
 		var table_id int8
 		var head string
 		var description string
-		rows.Scan(&table_id, &head, &description)
+		var done bool
+		rows.Scan(&table_id, &head, &description, &done)
 
-		tasks = append(tasks, task{table_id, head, description})
+		tasks = append(tasks, task{table_id, head, description, done})
 	}
 
 	if err != nil {
