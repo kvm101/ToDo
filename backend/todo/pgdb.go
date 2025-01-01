@@ -57,8 +57,8 @@ func addTask(head, description string, complexity, importance byte) error {
 		head VARCHAR(50) NOT NULL,
 		description VARCHAR(255),
 		done BOOLEAN DEFAULT FALSE,
-		complexity VARCHAR(7),
-		importance NUMERIC(1,0),
+		complexity NUMERIC(1,0) DEFAULT 0,
+		importance NUMERIC(1,0) DEFAULT 0,
 		date DATE NOT NULL DEFAULT CURRENT_DATE
 	)`
 
@@ -156,16 +156,16 @@ func readTasks(section string, sortf string) []task {
 		section_tasks += ` ORDER BY "head" DESC`
 
 	case "complexity_asc":
-		section_tasks += ` ORDER BY "complexity" ASC`
+		section_tasks += ` ORDER BY "complexity"::NUMERIC ASC`
 
 	case "complexity_desc":
-		section_tasks += ` ORDER BY "complexity" DESC`
+		section_tasks += ` ORDER BY "complexity"::NUMERIC DESC`
 
 	case "importance_asc":
-		section_tasks += ` ORDER BY "importance" ASC`
+		section_tasks += ` ORDER BY "importance"::NUMERIC ASC`
 
 	case "importance_desc":
-		section_tasks += ` ORDER BY "importance" DESC`
+		section_tasks += ` ORDER BY "importance"::NUMERIC DESC`
 
 	default:
 		section_tasks += ``

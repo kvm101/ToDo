@@ -39,6 +39,9 @@
   - Added Sorting for date, complexity, importance in function readTasks for 2 parameters (section - "all", "undone", "done";
   sortf = "date_asc", "date_desc", "head_asc", "head_desc", "complexity_asc", "complexity_desc", "importance_asc", "importance_desc")
 
+  version 1.5.1-alfa (02.12.24):
+  - Fixed incorrect types of data
+
   planning in future versions:
   **Access Management**
   - Add JWT (on 31.12.24)
