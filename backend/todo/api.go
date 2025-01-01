@@ -10,6 +10,11 @@ import (
 
 var temp_data task
 
+type readFilter struct {
+	Section string `json:"section"`
+	Sortf   string `json:"sortf"`
+}
+
 func readRequest(r *http.Request) *task {
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
@@ -30,7 +35,10 @@ func HandlerAdd(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodPost:
 		temp_data = *readRequest(r)
-		addTask(temp_data.Head, temp_data.Description)
+		err := addTask(temp_data.Head, temp_data.Description, temp_data.Complexity, temp_data.Importance)
+		if err != nil {
+			log.Println(err)
+		}
 
 	default:
 		fmt.Fprint(w, "Not correct request!")
@@ -46,14 +54,14 @@ func HandlerRead(w http.ResponseWriter, r *http.Request) {
 		}
 
 		var data []byte
-		var section string
+		var filter readFilter
 
-		err = json.Unmarshal(body, &section)
+		err = json.Unmarshal(body, &filter)
 		if err != nil {
 			fmt.Println(err)
 		}
 
-		tasks := readTask(section)
+		tasks := readTasks(filter.Section, filter.Sortf)
 		if err != nil {
 			log.Println(err)
 		}
@@ -74,7 +82,10 @@ func HandlerUpdate(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodPut:
 		temp_data = *readRequest(r)
-		editTask(temp_data.Task_id, temp_data.Head, temp_data.Description)
+		err := editTask(temp_data.Task_id, temp_data.Head, temp_data.Description, temp_data.Complexity, temp_data.Importance)
+		if err != nil {
+			log.Println(err)
+		}
 
 	default:
 		fmt.Fprint(w, "Not correct request!")

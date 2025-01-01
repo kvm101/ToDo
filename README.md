@@ -34,6 +34,11 @@
   version 1.4.0-alfa (30.12.24):
   - Added Sections(Tasks, Done tasks)
 
+  version 1.5.0-alfa (01.12.24):
+  - Added Sections (Date, Complexity, Importance)
+  - Added Sorting for date, complexity, importance in function readTasks for 2 parameters (section - "all", "undone", "done";
+  sortf = "date_asc", "date_desc", "head_asc", "head_desc", "complexity_asc", "complexity_desc", "importance_asc", "importance_desc")
+
   planning in future versions:
   **Access Management**
   - Add JWT (on 31.12.24)
