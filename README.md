@@ -1,5 +1,5 @@
 # ToDo Web App
-**version 1.4.0-alfa**
+**version 1.5.1-alfa**
 
 ## 1.Desciption
 1.1.Technologies to used:
@@ -43,9 +43,9 @@
   - Fixed incorrect types of data
 
   planning in future versions:
-  **Access Management**
-  - Add JWT (on 31.12.24)
-  - Add OAuth 2.0 (on 31.12.24)
+  - **Access Management**:
+    - Add JWT (on 31.12.24)
+    - Add OAuth 2.0 (on 31.12.24)
 
 ## License
 This project have [MIT License](LICENSE).
