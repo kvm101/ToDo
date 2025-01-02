@@ -1,5 +1,5 @@
 # ToDo Web App
-**version 1.5.1-alfa**
+**version 1.5.2-alfa**
 
 ## 1.Desciption
 1.1.Technologies to used:
@@ -41,6 +41,10 @@
 
   version 1.5.1-alfa (02.12.24):
   - Fixed incorrect types of data
+
+  мукішщт 1.5.2-alfa (02.12.24):
+  - Deleted sorting for switch logic
+  - Added sorting for parameter that enter manually
 
   planning in future versions:
   - **Access Management**:
