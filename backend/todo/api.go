@@ -18,7 +18,7 @@ type readFilter struct {
 func readRequest(r *http.Request) *task {
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
 
 	var data task
@@ -58,10 +58,10 @@ func HandlerRead(w http.ResponseWriter, r *http.Request) {
 
 		err = json.Unmarshal(body, &filter)
 		if err != nil {
-			fmt.Println(err)
+			log.Println(err)
 		}
 
-		tasks := readTasks(filter.Section, filter.Sortf)
+		tasks, err := readTasks(filter.Section, filter.Sortf)
 		if err != nil {
 			log.Println(err)
 		}

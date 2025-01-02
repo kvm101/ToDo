@@ -122,12 +122,17 @@ func doneTask(task_id int8, done bool) {
 	}
 }
 
-func readTasks(section string, sortf string) []task {
+func readTasks(section string, sortf string) ([]task, error) {
+	var err error
 	var tasks []task = make([]task, 0)
 	db := getDB()
 	defer db.Close()
 
 	var section_tasks string
+
+	if section == "" {
+		section = "all"
+	}
 
 	switch section {
 	case "all":
@@ -139,36 +144,11 @@ func readTasks(section string, sortf string) []task {
 		section_tasks = `select * from "list" where "done"=FALSE`
 
 	default:
-		section_tasks = `select * from "list"`
+		err = fmt.Errorf("not correct section in function readTasks()")
 	}
 
-	switch sortf {
-	case "date_asc":
-		section_tasks += ` ORDER BY "date" ASC`
-
-	case "date_desc":
-		section_tasks += ` ORDER BY "date" DESC`
-
-	case "head_asc":
-		section_tasks += ` ORDER BY "head" ASC`
-
-	case "head_desc":
-		section_tasks += ` ORDER BY "head" DESC`
-
-	case "complexity_asc":
-		section_tasks += ` ORDER BY "complexity"::NUMERIC ASC`
-
-	case "complexity_desc":
-		section_tasks += ` ORDER BY "complexity"::NUMERIC DESC`
-
-	case "importance_asc":
-		section_tasks += ` ORDER BY "importance"::NUMERIC ASC`
-
-	case "importance_desc":
-		section_tasks += ` ORDER BY "importance"::NUMERIC DESC`
-
-	default:
-		section_tasks += ``
+	if sortf != "" {
+		section_tasks += ` ORDER BY ` + sortf
 	}
 
 	rows, err := db.Query(section_tasks)
@@ -193,5 +173,5 @@ func readTasks(section string, sortf string) []task {
 		log.Println(err)
 	}
 
-	return tasks
+	return tasks, err
 }
