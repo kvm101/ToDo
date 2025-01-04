@@ -203,3 +203,21 @@ func authentification(login string, password string) bool {
 		return false
 	}
 }
+
+func registration(login string, password string) bool {
+	db := getDB()
+	defer db.Close()
+
+	var found_login string
+	db.QueryRow(`SELECT * FROM "users" where "login"=$1`, login).Scan(&found_login)
+
+	if found_login != "" {
+		log.Printf("login: %s is existing\n", login)
+		return false
+	} else {
+		db.Exec(`insert into "users"(login, password) values($1, $2)`, login, password)
+		log.Printf("login: %s is successfully created!\n", login)
+	}
+
+	return true
+}

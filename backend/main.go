@@ -8,6 +8,7 @@ import (
 )
 
 func main() {
+	http.Handle("/registration", todo.LogRequest(http.HandlerFunc(todo.HandlerRegistration)))
 	http.Handle("/add", todo.Authorization(todo.LogRequest(http.HandlerFunc(todo.HandlerAdd))))
 	http.Handle("/read", todo.Authorization(todo.LogRequest(http.HandlerFunc(todo.HandlerRead))))
 	http.Handle("/update", todo.Authorization(todo.LogRequest(http.HandlerFunc(todo.HandlerUpdate))))

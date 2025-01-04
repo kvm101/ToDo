@@ -149,3 +149,30 @@ func HandlerDone(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "Not correct request!")
 	}
 }
+
+func HandlerRegistration(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodPost:
+		body, err := io.ReadAll(r.Body)
+		if err != nil {
+			log.Println(err)
+		}
+
+		var user user
+		err = json.Unmarshal(body, &user)
+		if err != nil {
+			log.Println(err)
+		}
+
+		is_created := registration(user.Login, user.Password)
+
+		if is_created == false {
+			fmt.Fprintf(w, "Account is not created! login: %s is existing", user.Login)
+		} else {
+			fmt.Fprintf(w, "Account is created successfully! Your login: %s", user.Login)
+		}
+
+	default:
+		fmt.Fprint(w, "Not correct request!")
+	}
+}
