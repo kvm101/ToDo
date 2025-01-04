@@ -62,8 +62,8 @@ func HandlerAdd(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodPost:
 		temp_data = *readRequest(r)
-
 		user_id := getID(r)
+
 		err := addTask(user_id, temp_data.Head, temp_data.Description, temp_data.Complexity, temp_data.Importance)
 		if err != nil {
 			log.Println(err)

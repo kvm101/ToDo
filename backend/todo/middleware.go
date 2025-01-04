@@ -12,7 +12,7 @@ func LogRequest(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		header := fmt.Sprint(r.Header)
 
-		log.Printf("user: test %s %s %s %s\n", r.Method, r.RequestURI, r.Proto, header[4:(len(header)-1)])
+		log.Printf("%s %s %s %s\n", r.Method, r.RequestURI, r.Proto, header[4:(len(header)-1)])
 		next.ServeHTTP(w, r)
 	})
 }
@@ -33,14 +33,12 @@ func Authorization(next http.Handler) http.Handler {
 		split_dbase := strings.Split(string(dbasic), ":")
 		authentification := authentification(split_dbase[0], split_dbase[1])
 
-		fmt.Println("User auth check")
-
 		if authentification == false {
-			fmt.Println("User auth false")
+			log.Printf("user auth false")
 			return
 		}
 
-		fmt.Println("User auth")
+		log.Printf("user auth successfully!")
 
 		next.ServeHTTP(w, r)
 	})

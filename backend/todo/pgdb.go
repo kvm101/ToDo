@@ -47,11 +47,11 @@ func getDB() *sql.DB {
 }
 
 func addTask(id uint32, head, description string, complexity, importance byte) error {
-	if complexity <= 3 {
+	if complexity > 3 {
 		return fmt.Errorf("have(complexity = %d) \nwant (complexity <= 3)", complexity)
 	}
 
-	if importance <= 3 {
+	if importance > 3 {
 		return fmt.Errorf("have(importance = %d) \nwant (importance <= 3)", importance)
 	}
 
@@ -140,22 +140,21 @@ func readTasks(id uint32, section string, sortf string) ([]task, error) {
 		section = "all"
 	}
 
+	s_id := fmt.Sprintf(`"user_id"=%d`, id)
+
 	switch section {
 	case "all":
-		section_tasks = `select * from "list"`
+		section_tasks = `select * from "list" where ` + s_id
 	case "done":
-		section_tasks = `select * from "list" where "done"=TRUE`
+		section_tasks = `select * from "list" where "done"=TRUE and ` + s_id
 
 	case "undone":
-		section_tasks = `select * from "list" where "done"=FALSE`
+		section_tasks = `select * from "list" where "done"=FALSE and ` + s_id
 
 	default:
 		err = fmt.Errorf("not correct section in function readTasks()")
 		return nil, nil
 	}
-
-	s_id := fmt.Sprint(id)
-	section_tasks += ` and "user_id"=` + s_id
 
 	if sortf != "" {
 		section_tasks += ` ORDER BY ` + sortf
