@@ -11,13 +11,19 @@ import (
 const (
 	host     = "localhost"
 	port     = 2345
-	user     = "postgres"
+	login    = "postgres"
 	password = "admin"
 	dbname   = "postgres"
 )
 
+type user struct {
+	ID       uint32 `json:"user_id"`
+	Login    string `json:"login"`
+	Password string `json:"password"`
+}
+
 type task struct {
-	Task_id     int8   `json:"task_id"`
+	Task_id     int16  `json:"task_id"`
 	Head        string `json:"head"`
 	Description string `json:"description"`
 	Done        bool   `json:"done"`
@@ -29,7 +35,7 @@ type task struct {
 func getDB() *sql.DB {
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
+		host, port, login, password, dbname)
 
 	db, err := sql.Open("postgres", psqlInfo)
 
@@ -40,13 +46,13 @@ func getDB() *sql.DB {
 	return db
 }
 
-func addTask(head, description string, complexity, importance byte) error {
-	if complexity < 3 {
-		return fmt.Errorf("have(complexity = %d) \nwant (complexity < 3)", complexity)
+func addTask(id uint32, head, description string, complexity, importance byte) error {
+	if complexity <= 3 {
+		return fmt.Errorf("have(complexity = %d) \nwant (complexity <= 3)", complexity)
 	}
 
-	if importance < 3 {
-		return fmt.Errorf("have(importance = %d) \nwant (importance < 3)", importance)
+	if importance <= 3 {
+		return fmt.Errorf("have(importance = %d) \nwant (importance <= 3)", importance)
 	}
 
 	db := getDB()
@@ -62,14 +68,14 @@ func addTask(head, description string, complexity, importance byte) error {
 		date DATE NOT NULL DEFAULT CURRENT_DATE
 	)`
 
-	insertTask := `insert into "list"("head", "description", "complexity", "importance") values($1, $2, $3, $4)`
+	insertTask := `insert into "list"("head", "description", "complexity", "importance", "user_id") values($1, $2, $3, $4, $5)`
 
 	_, err := db.Exec(listQuery)
 	if err != nil {
 		log.Println(err)
 	}
 
-	_, err = db.Exec(insertTask, head, description, complexity, importance)
+	_, err = db.Exec(insertTask, head, description, complexity, importance, id)
 	if err != nil {
 		log.Println(err)
 	}
@@ -77,32 +83,32 @@ func addTask(head, description string, complexity, importance byte) error {
 	return nil
 }
 
-func deleteTask(task_id int8) {
+func deleteTask(id uint32, task_id int16) {
 	db := getDB()
 	defer db.Close()
 
-	deleteTask := `delete from "list" where task_id=$1`
+	deleteTask := `delete from "list" where task_id=$1 and "user_id"=$2`
 
-	_, err := db.Exec(deleteTask, task_id)
+	_, err := db.Exec(deleteTask, task_id, id)
 	if err != nil {
 		log.Println(err)
 	}
 }
 
-func editTask(task_id int8, head, description string, complexity, importance byte) error {
-	if complexity < 3 {
-		return fmt.Errorf("have(complexity = %d) \nwant (complexity < 3)", complexity)
+func editTask(id uint32, task_id int16, head, description string, complexity, importance byte) error {
+	if complexity <= 3 {
+		return fmt.Errorf("have(complexity = %d) \nwant (complexity <= 3)", complexity)
 	}
 
-	if importance < 3 {
-		return fmt.Errorf("have(importance = %d) \nwant (importance < 3)", importance)
+	if importance <= 3 {
+		return fmt.Errorf("have(importance = %d) \nwant (importance <= 3)", importance)
 	}
 
 	db := getDB()
 	defer db.Close()
-	updateTask := `update "list" set "head"=$1, "description"=$2, "complexity"=$3, "importance"=$4 where "task_id"=$5`
+	updateTask := `update "list" set "head"=$1, "description"=$2, "complexity"=$3, "importance"=$4 where "task_id"=$5 and "user_id"=$6`
 
-	_, err := db.Exec(updateTask, head, description, complexity, importance, task_id)
+	_, err := db.Exec(updateTask, head, description, complexity, importance, task_id, id)
 	if err != nil {
 		log.Println(err)
 	}
@@ -110,19 +116,19 @@ func editTask(task_id int8, head, description string, complexity, importance byt
 	return nil
 }
 
-func doneTask(task_id int8, done bool) {
+func doneTask(id uint32, task_id int16, done bool) {
 	db := getDB()
 	defer db.Close()
 
-	doneTask := `update "list" set "done"=$1 where "task_id"=$2`
+	doneTask := `update "list" set "done"=$1 where "task_id"=$2 and "user_id"=$3`
 
-	_, err := db.Exec(doneTask, done, task_id)
+	_, err := db.Exec(doneTask, done, task_id, id)
 	if err != nil {
 		log.Println(err)
 	}
 }
 
-func readTasks(section string, sortf string) ([]task, error) {
+func readTasks(id uint32, section string, sortf string) ([]task, error) {
 	var err error
 	var tasks []task = make([]task, 0)
 	db := getDB()
@@ -145,7 +151,11 @@ func readTasks(section string, sortf string) ([]task, error) {
 
 	default:
 		err = fmt.Errorf("not correct section in function readTasks()")
+		return nil, nil
 	}
+
+	s_id := fmt.Sprint(id)
+	section_tasks += ` and "user_id"=` + s_id
 
 	if sortf != "" {
 		section_tasks += ` ORDER BY ` + sortf
@@ -158,15 +168,15 @@ func readTasks(section string, sortf string) ([]task, error) {
 	defer rows.Close()
 
 	for rows.Next() {
-		var table_id int8
+		var task_id int16
 		var head string
 		var description string
 		var done bool
 		var complexity byte
 		var importance byte
 		var date string
-		rows.Scan(&table_id, &head, &description, &done, &complexity, &importance, &date)
-		tasks = append(tasks, task{table_id, head, description, done, complexity, importance, date})
+		rows.Scan(&task_id, &head, &description, &done, &complexity, &importance, &date)
+		tasks = append(tasks, task{task_id, head, description, done, complexity, importance, date})
 	}
 
 	if err != nil {
@@ -174,4 +184,23 @@ func readTasks(section string, sortf string) ([]task, error) {
 	}
 
 	return tasks, err
+}
+
+func authentification(login string, password string) bool {
+	db := getDB()
+	defer db.Close()
+
+	var count1, count2, count3 string
+
+	err := db.QueryRow(`SELECT * FROM users WHERE "login"=$1 AND "password"=$2`, login, password).Scan(&count1, &count2, &count3)
+	if err != nil {
+		log.Println(err)
+	}
+
+	if count1 > "" || count2 > "" || count3 > "" {
+		fmt.Println(count1, count2, count3)
+		return true
+	} else {
+		return false
+	}
 }

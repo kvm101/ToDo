@@ -42,9 +42,12 @@
   version 1.5.1-alfa (02.12.24):
   - Fixed incorrect types of data
 
-  мукішщт 1.5.2-alfa (02.12.24):
+  version 1.5.2-alfa (02.12.24):
   - Deleted sorting for switch logic
   - Added sorting for parameter that enter manually
+
+  version 2.0.0-alfa (04.12.24):
+  -Added Basic HTTP Authorization
 
   planning in future versions:
   - **Access Management**:
