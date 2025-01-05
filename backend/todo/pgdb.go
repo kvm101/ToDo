@@ -204,7 +204,7 @@ func authentification(login string, password string) bool {
 	}
 }
 
-func registration(login string, password string) bool {
+func registration(login string, password string) (bool, error) {
 	db := getDB()
 	defer db.Close()
 
@@ -215,13 +215,13 @@ func registration(login string, password string) bool {
 	}
 
 	fmt.Println(found_login)
-	if found_login > "" {
-		log.Printf("login: %s is existing\n", login)
-		return false
+	if found_login > "" || login == "" {
+		err = fmt.Errorf("login: %s is existing or incorrect\n", login)
+		return false, err
 	} else {
 		db.Exec(`insert into "users"(login, password) values($1, $2)`, login, password)
 		log.Printf("login: %s is successfully created!\n", login)
 	}
 
-	return true
+	return true, nil
 }

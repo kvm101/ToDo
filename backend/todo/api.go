@@ -164,10 +164,58 @@ func HandlerRegistration(w http.ResponseWriter, r *http.Request) {
 			log.Println(err)
 		}
 
-		is_created := registration(user.Login, user.Password)
+		if user.Login == "" {
+			fmt.Fprintf(w, "First sign is number. Login is empty")
+			return
+		}
+
+		if user.Password == "" {
+			fmt.Fprintf(w, "First sign is number. Password is empty")
+			return
+		}
+
+		isue_chars := []string{" ", "<", ">", "/", "\\", "|", ":", "*", "?", "\"", "'", "%", "&", "#", "$", "@", "=", "+", "^", "~", "\n", "\t", "\r"}
+		first_number := [10]string{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
+
+		for _, v := range first_number {
+			if string(user.Login[0]) == v {
+				fmt.Fprintf(w, "First sign is number. %s", err)
+				return
+			}
+		}
+
+		validate := func(data string, chars []string, validate_parameter string) error {
+			for _, v := range chars {
+				for _, s := range data {
+					if string(s) == v {
+						return fmt.Errorf("%s is not correct", validate_parameter)
+					}
+				}
+			}
+
+			if len(data) < 8 {
+				return fmt.Errorf("%s is less then 8 signs", validate_parameter)
+			}
+
+			return nil
+		}
+
+		err = validate(user.Login, isue_chars, "Login")
+		if err != nil {
+			fmt.Fprintf(w, "Account is not created! %s", err)
+			return
+		}
+
+		err = validate(user.Password, isue_chars, "Password")
+		if err != nil {
+			fmt.Fprintf(w, "Account is not created! %s", err)
+			return
+		}
+
+		is_created, err := registration(user.Login, user.Password)
 
 		if is_created == false {
-			fmt.Fprintf(w, "Account is not created! login: %s is existing", user.Login)
+			fmt.Fprintf(w, "Account is not created! %s", err)
 		} else {
 			fmt.Fprintf(w, "Account is created successfully! Your login: %s", user.Login)
 		}

@@ -58,6 +58,9 @@
   version 2.1.1-alfa (05.01.25):
   - Fixed bug that you could create any number of equal accounts
 
+  version 3.0.0-alfa (05.01.25):
+  - Added validator input data of registration
+
   planning in future versions:
   - replaced http basic authorization to JWT (on 10.01.25).
   - Add OAuth 2.0 (on 30.01.25).
