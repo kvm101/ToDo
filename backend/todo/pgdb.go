@@ -209,9 +209,13 @@ func registration(login string, password string) bool {
 	defer db.Close()
 
 	var found_login string
-	db.QueryRow(`SELECT * FROM "users" where "login"=$1`, login).Scan(&found_login)
+	err := db.QueryRow(`SELECT login FROM "users" where "login"=$1`, login).Scan(&found_login)
+	if err != nil {
+		log.Println(err)
+	}
 
-	if found_login != "" {
+	fmt.Println(found_login)
+	if found_login > "" {
 		log.Printf("login: %s is existing\n", login)
 		return false
 	} else {
