@@ -65,6 +65,9 @@
   - Added URL query parameters "limit" and "page"
   - Essues: have a bug with incorrect output
 
+  version 4.0.1-alfa (06.01.25):
+  - Fixed incorrect data output in readTasks()
+
   planning in future versions:
   - replaced http basic authorization to JWT (on 10.01.25).
   - Add OAuth 2.0 (on 30.01.25).

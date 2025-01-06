@@ -160,7 +160,7 @@ func readTasks(id uint32, section string, sortf string, limit uint64, page uint6
 		section_tasks += ` ORDER BY ` + sortf
 	}
 
-	pagination := fmt.Sprintf(` LIMIT %d OFFSET %d`, limit, limit*(page-1))
+	pagination := fmt.Sprintf(` LIMIT %d OFFSET %d;`, limit, limit*(page-1))
 	section_tasks += pagination
 
 	rows, err := db.Query(section_tasks)
@@ -177,7 +177,11 @@ func readTasks(id uint32, section string, sortf string, limit uint64, page uint6
 		var complexity byte
 		var importance byte
 		var date string
-		rows.Scan(&task_id, &head, &description, &done, &complexity, &importance, &date)
+		var user_id uint
+		err = rows.Scan(&task_id, &head, &description, &done, &complexity, &importance, &date, &user_id)
+		if err != nil {
+			log.Println("Rows. ", err)
+		}
 		tasks = append(tasks, task{task_id, head, description, done, complexity, importance, date})
 	}
 
