@@ -11,8 +11,9 @@ import (
 func LogRequest(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		header := fmt.Sprint(r.Header)
+		user_id := getID(r)
 
-		log.Printf("%s %s %s %s\n", r.Method, r.RequestURI, r.Proto, header[4:(len(header)-1)])
+		log.Printf("USER_ID %d %s: %s %s %s %s\n", user_id, r.RemoteAddr, r.Method, r.RequestURI, r.Proto, header[4:(len(header)-1)])
 		next.ServeHTTP(w, r)
 	})
 }
@@ -34,11 +35,8 @@ func Authorization(next http.Handler) http.Handler {
 		authentification := authentification(split_dbase[0], split_dbase[1])
 
 		if authentification == false {
-			log.Printf("user auth false")
 			return
 		}
-
-		log.Printf("user auth successfully!")
 
 		next.ServeHTTP(w, r)
 	})

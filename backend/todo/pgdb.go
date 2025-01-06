@@ -128,7 +128,7 @@ func doneTask(id uint32, task_id int16, done bool) {
 	}
 }
 
-func readTasks(id uint32, section string, sortf string) ([]task, error) {
+func readTasks(id uint32, section string, sortf string, limit uint64, page uint64) ([]task, error) {
 	var err error
 	var tasks []task = make([]task, 0)
 	db := getDB()
@@ -160,9 +160,12 @@ func readTasks(id uint32, section string, sortf string) ([]task, error) {
 		section_tasks += ` ORDER BY ` + sortf
 	}
 
+	pagination := fmt.Sprintf(` LIMIT %d OFFSET %d`, limit, limit*(page-1))
+	section_tasks += pagination
+
 	rows, err := db.Query(section_tasks)
 	if err != nil {
-		log.Println(err)
+		log.Println("unsuccessful query. ", err)
 	}
 	defer rows.Close()
 
@@ -179,7 +182,7 @@ func readTasks(id uint32, section string, sortf string) ([]task, error) {
 	}
 
 	if err != nil {
-		log.Println(err)
+		log.Println("unsuccessful query. ", err)
 	}
 
 	return tasks, err
@@ -197,7 +200,6 @@ func authentification(login string, password string) bool {
 	}
 
 	if count1 > "" || count2 > "" || count3 > "" {
-		fmt.Println(count1, count2, count3)
 		return true
 	} else {
 		return false

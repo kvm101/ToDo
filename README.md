@@ -1,5 +1,5 @@
 # ToDo Web App
-**version 2.1.0-alfa (04.01.25)**
+**version 4.0.0-alfa (06.01.25)**
 
 ## 1.Desciption
 1.1.Technologies to used:
@@ -60,6 +60,10 @@
 
   version 3.0.0-alfa (05.01.25):
   - Added validator input data of registration
+
+  version 4.0.0-alfa (06.01.25):
+  - Added URL query parameters "limit" and "page"
+  - Essues: have a bug with incorrect output
 
   planning in future versions:
   - replaced http basic authorization to JWT (on 10.01.25).

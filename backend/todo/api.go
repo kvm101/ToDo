@@ -7,6 +7,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 )
 
@@ -90,8 +91,11 @@ func HandlerRead(w http.ResponseWriter, r *http.Request) {
 			log.Println(err)
 		}
 
+		limit, err := strconv.ParseUint(r.URL.Query().Get("limit"), 10, 64)
+		page, err := strconv.ParseUint(r.URL.Query().Get("page"), 10, 64)
+
 		user_id := getID(r)
-		tasks, err := readTasks(user_id, filter.Section, filter.Sortf)
+		tasks, err := readTasks(user_id, filter.Section, filter.Sortf, limit, page)
 		if err != nil {
 			log.Println(err)
 		}
