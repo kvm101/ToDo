@@ -1,12 +1,10 @@
 # ToDo Web App
-**version 4.0.0-alfa (06.01.25)**
+**version 4.0.1-alfa (06.01.25)**
 
 ## 1.Desciption
 1.1.Technologies to used:
   - **Golang**
-  - **JavaScript**
   - **Postgres**
-  - **React**
 
 ## 2.Project version:
   version 1.0.0-alfa (27.12.24):
