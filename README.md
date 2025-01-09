@@ -73,13 +73,9 @@
   - Replace "log" to "go.uber.org/zap"
 
   planning in future versions:
-<<<<<<< HEAD
   - replaced http basic authorization to JWT.
   - Add OAuth 2.0.
-=======
-  - replaced http basic authorization to JWT (on 20.01.25).
-  - Add OAuth 2.0 (on 30.01.25).
->>>>>>> f2a525357aa3efadbef95c87d020b6460a14c002
+    
 
 ## License
 This project have [MIT License](LICENSE).
