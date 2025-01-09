@@ -68,9 +68,15 @@
   version 4.0.1-alfa (06.01.25):
   - Fixed incorrect data output in readTasks()
 
+  planning in the next version(5.0.0)-alfa (20.01.25):
+  - Replace "github.com/lib/pq" to "github.com/jackc/pgx/v5"
+
+  planning in version(6.0.0)-alfa:
+  - Replace "log" to "go.uber.org/zap"
+
   planning in future versions:
-  - replaced http basic authorization to JWT (on 10.01.25).
-  - Add OAuth 2.0 (on 30.01.25).
+  - replaced http basic authorization to JWT.
+  - Add OAuth 2.0.
 
 ## License
 This project have [MIT License](LICENSE).
