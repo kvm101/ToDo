@@ -1,12 +1,10 @@
-# ToDo Web App
-**version 4.0.0-alfa (06.01.25)**
+# ToDo API
+**version 4.0.1-alfa (06.01.25)**
 
 ## 1.Desciption
 1.1.Technologies to used:
   - **Golang**
-  - **JavaScript**
   - **Postgres**
-  - **React**
 
 ## 2.Project version:
   version 1.0.0-alfa (27.12.24):
@@ -75,8 +73,13 @@
   - Replace "log" to "go.uber.org/zap"
 
   planning in future versions:
+<<<<<<< HEAD
   - replaced http basic authorization to JWT.
   - Add OAuth 2.0.
+=======
+  - replaced http basic authorization to JWT (on 20.01.25).
+  - Add OAuth 2.0 (on 30.01.25).
+>>>>>>> f2a525357aa3efadbef95c87d020b6460a14c002
 
 ## License
 This project have [MIT License](LICENSE).
