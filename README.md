@@ -67,7 +67,7 @@
   - Fixed incorrect data output in readTasks()
 
   planning in future versions:
-  - replaced http basic authorization to JWT (on 10.01.25).
+  - replaced http basic authorization to JWT (on 20.01.25).
   - Add OAuth 2.0 (on 30.01.25).
 
 ## License
