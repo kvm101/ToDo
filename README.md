@@ -5,6 +5,8 @@
 1.1.Technologies to used:
   - **Golang**
   - **Postgres**
+  - **Python**
+  - **Streamlit**
 
 ## 2.Project version:
   version 1.0.0-alfa (27.12.24):
@@ -67,10 +69,11 @@
   - Fixed incorrect data output in readTasks()
 
   planning in the next version(5.0.0)-alfa (20.01.25):
-  - Replace "github.com/lib/pq" to "github.com/jackc/pgx/v5"
+  - Replace "log" to "go.uber.org/zap"
+  - Union "zap" with Python App Telemetry on Streamlit
 
   planning in version(6.0.0)-alfa:
-  - Replace "log" to "go.uber.org/zap"
+  - Replace "github.com/lib/pq" to "github.com/jackc/pgx/v5"
 
   planning in future versions:
   - replaced http basic authorization to JWT.
