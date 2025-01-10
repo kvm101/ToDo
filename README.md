@@ -1,5 +1,5 @@
 # ToDo API
-**version 4.0.1-alfa (06.01.25)**
+**version 5.0.0-alfa (10.01.25)**
 
 ## 1.Desciption
 1.1.Technologies to used:
@@ -68,17 +68,20 @@
   version 4.0.1-alfa (06.01.25):
   - Fixed incorrect data output in readTasks()
 
-  planning in the next version(5.0.0)-alfa (20.01.25):
+  version 5.0.0-alfa (10.01.25):
+  - Added general structure telemetry admin pannel on Streamlit
+
+  planning in the next version(6.0.0)-alfa (20.01.25):
   - Replace "log" to "go.uber.org/zap"
   - Union "zap" with Python App Telemetry on Streamlit
 
-  planning in version(6.0.0)-alfa:
+  planning in version(7.0.0)-alfa:
   - Replace "github.com/lib/pq" to "github.com/jackc/pgx/v5"
 
   planning in future versions:
   - replaced http basic authorization to JWT.
   - Add OAuth 2.0.
-    
+
 
 ## License
 This project have [MIT License](LICENSE).
