@@ -78,6 +78,9 @@
   planning in version(7.0.0)-alfa:
   - Replace "github.com/lib/pq" to "github.com/jackc/pgx/v5"
 
+  planning in version(8.0.0)-alfa:
+  -Replace "net/http" to "github.com/gofiber/fiber"
+  
   planning in future versions:
   - replaced http basic authorization to JWT.
   - Add OAuth 2.0.
