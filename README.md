@@ -79,7 +79,7 @@
   - Replace "github.com/lib/pq" to "github.com/jackc/pgx/v5"
 
   planning in version(8.0.0)-alfa:
-  -Replace "net/http" to "github.com/gofiber/fiber"
+  - Replace "net/http" to "github.com/gofiber/fiber"
   
   planning in future versions:
   - replaced http basic authorization to JWT.
