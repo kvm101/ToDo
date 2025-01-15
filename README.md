@@ -1,12 +1,10 @@
-# ToDo API
-**version 5.0.0-alfa (10.01.25)**
+# ToDo API (Ended)
+**version 1.0.0-beta (15.01.25)**
 
 ## 1.Desciption
 1.1.Technologies to used:
   - **Golang**
   - **Postgres**
-  - **Python**
-  - **Streamlit**
 
 ## 2.Project version:
   version 1.0.0-alfa (27.12.24):
@@ -56,24 +54,23 @@
   - Added user registration.
 
   version 2.1.1-alfa (05.01.25):
-  - Fixed bug that you could create any number of equal accounts
+  - Fixed bug that you could create any number of equal accounts.
 
   version 3.0.0-alfa (05.01.25):
-  - Added validator input data of registration
+  - Added validator input data of registration.
 
   version 4.0.0-alfa (06.01.25):
-  - Added URL query parameters "limit" and "page"
-  - Essues: have a bug with incorrect output
+  - Added URL query parameters "limit" and "page".
+  - Essues: have a bug with incorrect output.
 
   version 4.0.1-alfa (06.01.25):
-  - Fixed incorrect data output in readTasks()
+  - Fixed incorrect data output in readTasks().
 
   version 5.0.0-alfa (10.01.25):
-  - Added general structure telemetry admin pannel on Streamlit
+  - Added general structure telemetry admin pannel on Streamlit.
 
-  version 1.0.0-beta (15.01.25):
-  - Deleted not developed frontend and telemetry
-
+  final version 1.0.0-beta (15.01.25):
+  - Deleted not developed frontend and telemetry.
 
 ## License
 This project have [MIT License](LICENSE).
