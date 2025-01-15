@@ -71,22 +71,8 @@
   version 5.0.0-alfa (10.01.25):
   - Added general structure telemetry admin pannel on Streamlit
 
-  planning in the next version(6.0.0)-alfa (16.01.25):
-  - Add Redis for chaching data, but with sense, it's be tasks that write more people and this tasks you will wish, you could added to your task list
-
-  planning in version(7.0.0)-alfa (20.01.25):
-  - Replace "log" to "go.uber.org/zap"
-  - Union "zap" with Python App Telemetry on Streamlit
-
-  planning in version(8.0.0)-alfa:
-  - Replace "github.com/lib/pq" to "github.com/jackc/pgx/v5"
-
-  planning in version(9.0.0)-alfa:
-  - Replace "net/http" to "github.com/gofiber/fiber"
-  
-  planning in future versions:
-  - replaced http basic authorization to JWT.
-  - Add OAuth 2.0.
+  version 1.0.0-beta (15.01.25):
+  - Deleted not developed frontend and telemetry
 
 
 ## License
